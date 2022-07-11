@@ -69,7 +69,13 @@ const attachHandlers = () => {
       updateWindowCount
     );
     const nodeClick = instance.node.connect("clicked", () => {
-      workspace.activate(Date.now() / 1000);
+      const newFocus = workspace.list_windows().find(w => w.appears_focused);
+
+      if (newFocus) {
+        workspace.activate_with_focus(newFocus, global.get_current_time());
+      } else {
+        workspace.activate(global.get_current_time());
+      }
     });
 
     return () => {
