@@ -5,6 +5,7 @@ const { Container, WorkspaceIndicator } = Me.imports.ui;
 const WorkspaceManager = global.workspace_manager;
 const { Display } = imports.gi.Meta;
 const Main = imports.ui.main;
+const Clutter = imports.gi.Clutter;
 
 // Initial state
 let indicators;
@@ -68,20 +69,39 @@ const attachHandlers = () => {
       "window-removed",
       updateWindowCount
     );
-    const nodeClick = instance.node.connect("clicked", () => {
-      const newFocus = workspace.list_windows().find(w => w.appears_focused);
 
-      if (newFocus) {
-        workspace.activate_with_focus(newFocus, global.get_current_time());
-      } else {
-        workspace.activate(global.get_current_time());
+    const nodeButtonRelease = instance.node.connect("button-release-event", (_, event) => {
+      switch(event.get_button()) {
+        // Left mouse button, switch to workspace
+        case Clutter.BUTTON_PRIMARY:
+          const newFocus = workspace.list_windows().find(w => w.appears_focused);
+
+          if (newFocus) {
+            workspace.activate_with_focus(newFocus, global.get_current_time());
+          } else {
+            workspace.activate(global.get_current_time());
+          }
+
+          break;
+
+        // Right mouse button, open overview
+        case Clutter.BUTTON_SECONDARY:
+          Main.overview.show();
+          break;
+
+        // Middle mouse button, open applications view
+        case Clutter.BUTTON_MIDDLE:
+          Main.overview.showApps();
+          break;
       }
+
+      return Clutter.EVENT_PROPAGATE;
     });
 
     return () => {
       workspace.disconnect(windowAdded);
       workspace.disconnect(windowRemoved);
-      instance.disconnect(nodeClick);
+      instance.disconnect(nodeButtonRelease);
     };
   });
   handlers.concat(workspaceHandlers);
