@@ -74,6 +74,8 @@ const attachHandlers = () => {
       switch(event.get_button()) {
         // Left mouse button, switch to workspace
         case Clutter.BUTTON_PRIMARY:
+          if (instance.isActive()) return;
+
           const newFocus = workspace.list_windows().find(w => w.appears_focused);
 
           if (newFocus) {

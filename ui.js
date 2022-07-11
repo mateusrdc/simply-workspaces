@@ -33,6 +33,8 @@ var WorkspaceIndicator = ({ label, active, windowCount }) => {
     render();
   };
 
+  const isActive = () => state.active;
+
   const setWindowCount = (n) => {
     state.windowCount = n;
     render();
@@ -45,6 +47,7 @@ var WorkspaceIndicator = ({ label, active, windowCount }) => {
     node,
     setActive,
     setInactive,
+    isActive,
     setWindowCount,
     setLabel,
   };
