@@ -1,8 +1,8 @@
 {
   "name": "Simply Workspaces",
   "description": "Workspace indication with an i3/polybar style.",
-  "uuid": "simply.workspaces@andyrichardson.dev",
+  "uuid": "simply.workspaces@mateusrdc",
   "version": 1,
   "shell-version": ["40", "41", "42"],
-  "url": "https://github.com/andyrichardson/simply-workspaces"
+  "url": "https://github.com/mateusrdc/simply-workspaces"
 }
